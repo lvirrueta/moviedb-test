@@ -24,13 +24,14 @@ class HttpService implements IHttpService {
     void Function(Response<dynamic> response) ? success,
     void Function(ErrorHttp error) ? failure,
   }) async {
-    await dio.request(
+    final resp = await dio.request(
       url,
       queryParameters: queryParameters,
       options: Options(
         method: method.name,
       ),
     );
+    success?.call(resp);
   }
 
 }

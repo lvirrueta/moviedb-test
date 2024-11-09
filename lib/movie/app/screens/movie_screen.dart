@@ -26,15 +26,20 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       ),
       body: (movies == null) 
         ? const Center(child: Text('Cargando')) 
-        : ListView.builder(
-          itemCount: movies.length,
-          itemBuilder: (context, index) {
-            final movie = movies[index];
-            return ListTile(
+        : ListView(
+          children: [
+            ...movies.map((movie) => ListTile(
               title: Text(movie.title),
-            );
-          },
-      )
+            )),
+
+            ListTile(
+              title: const Text('Más películas...'),
+              leading: const Icon(Icons.movie),
+              trailing: const Icon(Icons.keyboard_double_arrow_down),
+              onTap: () => ref.read(moviesProvider.notifier).nowPlaying(),
+            )
+          ],
+        )
     );
   }
 }

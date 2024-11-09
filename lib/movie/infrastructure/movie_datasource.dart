@@ -6,14 +6,20 @@ import 'package:moviedb/shared/services/http-service/http_service.dart';
 
 class MovieDataSource implements IMovieDataSource {
   final httpService = HttpService();
+  final language = 'es-MX';
 
   @override
   Future<void> nowPlaying({
+    required int page,
     void Function(MovieDbResponse response)? success
   }) async {
     await httpService.http(
       url: ApiRoutes.nowPlaying, 
       method: HttpMethodEnum.get,
+      queryParameters: { 
+        'page': page,
+        'language': language,
+      },
       success: (r) => success?.call(MovieDbResponse.fromJson(r.data)),
     );
   }

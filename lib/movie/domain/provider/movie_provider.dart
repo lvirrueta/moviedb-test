@@ -5,26 +5,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedb/movie/domain/model/movie.dart';
 import 'package:moviedb/movie/domain/model/movie_response.dart';
 
-// IDataSource
-import 'package:moviedb/movie/domain/datasources/imovie_datasource.dart';
-
 // DataSource
 import 'package:moviedb/movie/infrastructure/movie_datasource.dart';
 
 
 final moviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>?>((ref) => MoviesNotifier());
 
-class MoviesNotifier extends StateNotifier<List<Movie>?> implements IMovieDataSource {
+class MoviesNotifier extends StateNotifier<List<Movie>?> {
   MoviesNotifier(): super(null);
 
   final movieDataSource = MovieDataSource();
+  int page = 1;
   
-  @override
   Future<void> nowPlaying({
-    void Function(MovieDbResponse response)? success
+    void Function(MovieDbResponse response)? success,
   }) async {
     await movieDataSource.nowPlaying(
-      success: (r) => state = r.results,
+      page: page,
+      success: (response) {
+        page++;
+        final movies = response.results;
+        state = [...?state, ...movies];
+        if (state!.length < 50) nowPlaying();
+      },
     );
   }
 }

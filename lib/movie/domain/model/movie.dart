@@ -2,8 +2,8 @@ class Movie {
   final int id;
   final String title;
   final String overview;
-  final String backdropPath;
-  final String posterPath;
+  final String _backdropPath;
+  final String _posterPath;
   final double voteAverage;
   final DateTime releaseDate;
 
@@ -11,11 +11,13 @@ class Movie {
     required this.id,
     required this.title,
     required this.overview,
-    required this.backdropPath,
+    required String backdropPath,
     required this.voteAverage,
-    required this.posterPath,
+    required String posterPath,
     required this.releaseDate,
-  });
+  }) : 
+      _posterPath = posterPath, 
+      _backdropPath = backdropPath;
 
   factory Movie.fromJson(Map<String, dynamic> json) => Movie(
     // adult: json["adult"] ?? false,
@@ -34,6 +36,6 @@ class Movie {
     // voteCount: json["vote_count"],
   );
 
-  String get posterImage => 'https://image.tmdb.org/t/p/w780$posterPath';
-  String get backdropImage => 'https://image.tmdb.org/t/p/w780$backdropPath';
+  String get posterImage => 'https://image.tmdb.org/t/p/w780$_posterPath';
+  String get backdropImage => 'https://image.tmdb.org/t/p/w780$_backdropPath';
 }

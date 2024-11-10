@@ -4,6 +4,7 @@ import 'package:moviedb/movie/domain/model/movie_response.dart';
 
 // Services
 import 'package:moviedb/shared/services/http-service/http_service.dart';
+import 'package:moviedb/shared/services/preferences-service/shared_preferences_service.dart';
 
 // Interfaces
 import 'package:moviedb/movie/domain/datasources/imovie_datasource.dart';
@@ -29,7 +30,20 @@ class MovieDataSource implements IMovieDataSource {
         'page': page,
         'language': language,
       },
-      success: (r) => success?.call(MovieDbResponse.fromJson(r.data)),
+      success: (r) async {
+        final MovieDbResponse moviesApi = MovieDbResponse.fromJson(r.data);
+        final moviesLiked = await SharedPreferencesService().getMoviesLiked();
+        final movies = MovieDbResponse(
+          page: moviesApi.page,
+          totalPages: moviesApi.totalPages,
+          totalResults: moviesApi.totalResults,
+          results: moviesApi.results.map((e) {
+            e.isLiked = (moviesLiked.where((m) => m.id == e.id).isNotEmpty);
+            return e;
+          }).toList(),
+        );
+        success?.call(movies);
+      } 
     );
   }
   
@@ -44,7 +58,12 @@ class MovieDataSource implements IMovieDataSource {
       queryParameters: { 
         'language': language,
       },
-      success: (r) => success?.call(MovieDetail.fromJson(r.data)),
+      success: (r) async {
+        final MovieDetail movieApi = MovieDetail.fromJson(r.data);
+        final moviesLiked = await SharedPreferencesService().getMoviesLiked();
+        movieApi.isLiked = moviesLiked.where((m) => m.id == movieApi.id).isNotEmpty;
+        success?.call(movieApi);
+      } 
     );
   }
 }

@@ -1,3 +1,24 @@
+class MovieSharedPreference {
+  final int id;
+  final String name; 
+
+  MovieSharedPreference({
+    required this.id,
+    required this.name,
+  });
+
+  Map toJson() => {
+    'id': id,
+    'name': name,
+  };
+
+  factory MovieSharedPreference.fromJson(Map<String, dynamic> json) => MovieSharedPreference(
+    id: json["id"],
+    name: json["name"],
+  );
+
+}
+
 class Movie {
   final int id;
   final String title;
@@ -8,6 +29,7 @@ class Movie {
   final DateTime releaseDate;
   final int voteCount;
   final double popularity;
+  bool isLiked;
 
   Movie({
     required this.id,
@@ -19,6 +41,7 @@ class Movie {
     required this.releaseDate,
     required this.voteCount,
     required this.popularity,
+    required this.isLiked,
   }) : 
       _posterPath = posterPath, 
       _backdropPath = backdropPath;
@@ -33,6 +56,7 @@ class Movie {
     voteAverage: json["vote_average"]?.toDouble(),
     voteCount: json["vote_count"],
     popularity: json["popularity"]?.toDouble(),
+    isLiked: true,
   );
 
   String get posterImage => 'https://image.tmdb.org/t/p/w780$_posterPath';
@@ -53,6 +77,7 @@ class MovieDetail extends Movie {
     required super.releaseDate,
     required super.voteCount,
     required super.popularity,
+    required super.isLiked,
     required this.tagLine,
     required this.genres,
   });
@@ -69,6 +94,7 @@ class MovieDetail extends Movie {
       releaseDate: movie.releaseDate,
       voteCount: movie.voteCount,
       popularity: movie.popularity,
+      isLiked: movie.isLiked,
       tagLine: json["tagline"] ?? '',
       genres: List<Map<String, dynamic>>.from(json['genres']).map((e) => Genres.fromJson(e)).toList(),
     );

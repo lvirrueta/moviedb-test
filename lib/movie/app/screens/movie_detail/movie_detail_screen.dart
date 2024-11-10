@@ -2,6 +2,7 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moviedb/movie/app/screens/movie_detail/movie_detail_buttons.dart';
 
 // Provider
 import 'package:moviedb/movie/domain/provider/movie_provider.dart';
@@ -67,28 +68,10 @@ class MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                 ),
               ),
 
-              Positioned(
-                bottom: 80,
-                right: 0,
-                child: IconButton(
-                  onPressed: () {}, 
-                  icon: const Icon(
-                    Icons.favorite,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              const SharedButtonMovieDetail(),
 
-              Positioned(
-                bottom: 20,
-                right: 0,
-                child: IconButton(
-                  onPressed: () {}, 
-                  icon: const Icon(
-                    Icons.share,
-                    color: Colors.white,
-                  ),
-                ),
+              LikeButtonMovieDetail(
+                movie: movie,
               ),
             ],
           ),

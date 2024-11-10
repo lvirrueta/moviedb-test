@@ -32,7 +32,6 @@ class MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
   Widget build(BuildContext context) {
     final movie = ref.watch( movieDetailProvider );
     final movieSelected = ref.read( movieSelectedProvider )!;
-    
 
     return Scaffold(
       appBar: AppBar(
@@ -40,17 +39,58 @@ class MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
       ),
       body: (movie == null) ? const SizedBox() : ListView( 
         children: [
-          Container(
-            height: 600,
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                image: NetworkImage(movie.posterImage),
-                fit: BoxFit.cover,
+          Stack(
+            children: [
+              Container(
+                height: 600,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: NetworkImage(movie.posterImage),
+                    fit: BoxFit.cover,
+                  ),
+                  
+                ),
+                child: const DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.transparent,
+                        Colors.black,
+                      ],
+                      stops: [0.8, 1.0],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  )
+                ),
               ),
-            ),
+
+              Positioned(
+                bottom: 80,
+                right: 0,
+                child: IconButton(
+                  onPressed: () {}, 
+                  icon: const Icon(
+                    Icons.favorite,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+
+              Positioned(
+                bottom: 20,
+                right: 0,
+                child: IconButton(
+                  onPressed: () {}, 
+                  icon: const Icon(
+                    Icons.share,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
           Card(
             child: Column(

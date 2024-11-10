@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:moviedb/config/router/routes.dart';
 import 'package:moviedb/movie/domain/provider/movie_provider.dart';
 
-class MovieScreen extends ConsumerStatefulWidget {
-  const MovieScreen({super.key});
+class NowPlayingMoviesScreen extends ConsumerStatefulWidget {
+  const NowPlayingMoviesScreen({super.key});
 
   @override
   MovieScreenState createState() => MovieScreenState();
 }
 
-class MovieScreenState extends ConsumerState<MovieScreen> {
+class MovieScreenState extends ConsumerState<NowPlayingMoviesScreen> {
   @override
   void initState() {
     super.initState();
@@ -30,6 +32,12 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
           children: [
             ...movies.map((movie) => ListTile(
               title: Text(movie.title),
+              trailing: const Icon(Icons.arrow_forward),
+              leading: const Icon(Icons.movie),
+              onTap: () {
+                ref.read(movieSelectedProvider.notifier).state = movie;
+                context.push(Routes.detailMovie);
+              },
             )),
 
             ListTile(

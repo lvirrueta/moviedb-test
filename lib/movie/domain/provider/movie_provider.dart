@@ -11,6 +11,10 @@ import 'package:moviedb/movie/infrastructure/movie_datasource.dart';
 
 final moviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>?>((ref) => MoviesNotifier());
 
+final movieSelectedProvider = StateProvider<Movie>(
+  (ref) => Movie(id: 0, title: '', overview: ''),
+);
+
 class MoviesNotifier extends StateNotifier<List<Movie>?> {
   MoviesNotifier(): super(null);
 

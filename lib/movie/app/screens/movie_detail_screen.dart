@@ -1,4 +1,5 @@
 // Dependencies
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,8 +20,6 @@ class MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
     final movieSelected = ref.read( movieSelectedProvider )!;
     ref.read(movieDetailProvider.notifier).detail(id: movieSelected.id);
   }
-
-
 
   @override
   void deactivate() {
@@ -55,10 +54,42 @@ class MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
           ),
           Card(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 ListTile(
                   title: Text(movie.title),
-                  subtitle: Text(movie.overview),
+                  subtitle: Column(
+                    children: [
+                      movie.tagLine.isEmpty ? const SizedBox() : Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          movie.tagLine,
+                          style: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                          ),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(DateFormat.yMMMMEEEEd('es_MX').format(movie.releaseDate)),
+                      ),
+                      movie.overview.isEmpty ? const SizedBox() : const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Descripción:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ), 
+                      Text(
+                        movie.overview,
+                        textAlign: TextAlign.justify,
+                      ),
+                    ],
+                  ),
+                  // subtitle: Text(movie.overview),
                 ),
 
                 SingleChildScrollView(

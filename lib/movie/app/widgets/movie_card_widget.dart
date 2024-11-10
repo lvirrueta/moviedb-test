@@ -1,5 +1,6 @@
 
 // Dependencies
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,7 +60,7 @@ class MovieCardWidget extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.all(15),
                     child: Text(
-                      movie.releaseDate.toIso8601String().split('T')[0],
+                      DateFormat('dd MMM yyyy').format(movie.releaseDate),
                       style: const TextStyle(
                         color: Colors.white,
                       ),

@@ -6,6 +6,8 @@ class Movie {
   final String _posterPath;
   final double voteAverage;
   final DateTime releaseDate;
+  final int voteCount;
+  final double popularity;
 
   Movie({
     required this.id,
@@ -15,27 +17,75 @@ class Movie {
     required this.voteAverage,
     required String posterPath,
     required this.releaseDate,
+    required this.voteCount,
+    required this.popularity,
   }) : 
       _posterPath = posterPath, 
       _backdropPath = backdropPath;
 
   factory Movie.fromJson(Map<String, dynamic> json) => Movie(
-    // adult: json["adult"] ?? false,
     backdropPath: json["backdrop_path"] ?? '',
-    // genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
     id: json["id"],
-    // originalLanguage: json["original_language"],
-    // originalTitle: json["original_title"],
     overview: json["overview"] ?? '',
-    // popularity: json["popularity"]?.toDouble(),
     posterPath: json["poster_path"] ?? '',
     releaseDate: DateTime.parse(json["release_date"]),
     title: json["title"],
-    // video: json["video"],
     voteAverage: json["vote_average"]?.toDouble(),
-    // voteCount: json["vote_count"],
+    voteCount: json["vote_count"],
+    popularity: json["popularity"]?.toDouble(),
   );
 
   String get posterImage => 'https://image.tmdb.org/t/p/w780$_posterPath';
   String get backdropImage => 'https://image.tmdb.org/t/p/w780$_backdropPath';
+}
+
+class MovieDetail extends Movie {
+  final String tagLine;
+  final List<Genres> genres;
+
+  MovieDetail({
+    required super.id,
+    required super.title,
+    required super.overview,
+    required super.backdropPath,
+    required super.posterPath,
+    required super.voteAverage,
+    required super.releaseDate,
+    required super.voteCount,
+    required super.popularity,
+    required this.tagLine,
+    required this.genres,
+  });
+
+  factory MovieDetail.fromJson(Map<String, dynamic> json) {
+    final movie = Movie.fromJson(json);
+    return MovieDetail(
+      id: movie.id, 
+      title: movie.title, 
+      overview: movie.overview, 
+      backdropPath: movie._posterPath, 
+      posterPath: movie._posterPath, 
+      voteAverage: movie.voteAverage, 
+      releaseDate: movie.releaseDate,
+      voteCount: movie.voteCount,
+      popularity: movie.popularity,
+      tagLine: json["tagline"] ?? '',
+      genres: List<Map<String, dynamic>>.from(json['genres']).map((e) => Genres.fromJson(e)).toList(),
+    );
+  }
+}
+
+class Genres {
+  final int id;
+  final String name;
+
+  const Genres({
+    required this.id,
+    required this.name,
+  });
+
+  factory Genres.fromJson(Map<String, dynamic> json) => Genres(
+    id: json["id"],
+    name: json["name"],
+  );
 }

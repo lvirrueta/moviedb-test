@@ -15,6 +15,6 @@ final appRouter = GoRouter(
   routes: [
     GoRoute(path: Routes.root, builder: (context, state) => const LandingScreen() ),
     GoRoute(path: Routes.nowPlaying, builder: (context, state) => const NowPlayingMoviesScreen() ),
-    GoRoute(path: Routes.detailMovie, builder: (context, state) => const MovieScreen() ),
+    GoRoute(path: Routes.detailMovie, builder: (context, state) => const MovieDetailScreen() ),
   ]
 );

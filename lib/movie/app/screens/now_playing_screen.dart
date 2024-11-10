@@ -1,8 +1,13 @@
+// Dependencies
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:moviedb/config/router/routes.dart';
+
+// Providers
 import 'package:moviedb/movie/domain/provider/movie_provider.dart';
+
+// Widgets
+import 'package:moviedb/movie/app/widgets/movie_card_widget.dart';
+
 
 class NowPlayingMoviesScreen extends ConsumerStatefulWidget {
   const NowPlayingMoviesScreen({super.key});
@@ -30,15 +35,7 @@ class MovieScreenState extends ConsumerState<NowPlayingMoviesScreen> {
         ? const Center(child: Text('Cargando')) 
         : ListView(
           children: [
-            ...movies.map((movie) => ListTile(
-              title: Text(movie.title),
-              trailing: const Icon(Icons.arrow_forward),
-              leading: const Icon(Icons.movie),
-              onTap: () {
-                ref.read(movieSelectedProvider.notifier).state = movie;
-                context.push(Routes.detailMovie);
-              },
-            )),
+            ...movies.map((movie) => MovieCardWidget(movie: movie)),
 
             ListTile(
               title: const Text('Más películas...'),

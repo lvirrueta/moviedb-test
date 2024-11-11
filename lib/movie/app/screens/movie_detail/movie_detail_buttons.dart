@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedb/movie/domain/model/movie.dart';
 import 'package:moviedb/movie/domain/provider/movie_provider.dart';
 
-class LikeButtonMovieDetail extends ConsumerStatefulWidget {
+class LikeButtonMovieDetail extends ConsumerWidget {
   final Movie movie;
 
   const LikeButtonMovieDetail({
@@ -12,20 +12,15 @@ class LikeButtonMovieDetail extends ConsumerStatefulWidget {
   });
 
   @override
-  LikedButtonMovieState createState() => LikedButtonMovieState();
-}
-
-class LikedButtonMovieState extends ConsumerState<LikeButtonMovieDetail> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Positioned(
       bottom: 20,
       right: 0,
       child: IconButton(
-        onPressed: () => ref.read(moviesProvider.notifier).toggleFavoriteMovie(id: widget.movie.id),
+        onPressed: () => ref.read(moviesProvider.notifier).toggleFavoriteMovie(id: movie.id),
         icon: Icon(
           Icons.favorite,
-          color: widget.movie.isLiked ? Colors.red : Colors.white,
+          color: movie.isLiked ? Colors.red : Colors.white,
         ),
       ),
     );

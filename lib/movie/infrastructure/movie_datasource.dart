@@ -50,7 +50,7 @@ class MovieDataSource implements IMovieDataSource {
   @override
   Future<void> detailMovie({
     required int id,
-    void Function(MovieDetail response)? success
+    void Function(Movie response)? success
   }) async {
     await httpService.http(
       url: '${ApiRoutes.detail}$id', 
@@ -59,7 +59,7 @@ class MovieDataSource implements IMovieDataSource {
         'language': language,
       },
       success: (r) async {
-        final MovieDetail movieApi = MovieDetail.fromJson(r.data);
+        final Movie movieApi = Movie.fromJson(r.data);
         final moviesLiked = await SharedPreferencesService().getMoviesLiked();
         movieApi.isLiked = moviesLiked.where((m) => m.id == movieApi.id).isNotEmpty;
         success?.call(movieApi);

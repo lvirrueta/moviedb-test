@@ -11,26 +11,9 @@ import 'package:moviedb/movie/infrastructure/movie_datasource.dart';
 
 final moviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>?>((ref) => MoviesNotifier());
 
-final movieDetailProvider = StateNotifierProvider<DetailMovieNotifier, MovieDetail?>((ref) => DetailMovieNotifier());
-
-
-final movieSelectedProvider = StateProvider<Movie?>(
+final movieIdProvider = StateProvider<int?>(
   (ref) => null,
 );
-
-class DetailMovieNotifier extends StateNotifier<MovieDetail?> {
-  DetailMovieNotifier(): super(null);
-
-  final movieDataSource = MovieDataSource();
-
-
-  Future<void> detail({required int id}) async {
-    await movieDataSource.detailMovie(
-      id: id,
-      success: (response) => state = response,
-    );
-  }
-}
 
 class MoviesNotifier extends StateNotifier<List<Movie>?> {
   MoviesNotifier(): super(null);
@@ -38,6 +21,19 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
   final movieDataSource = MovieDataSource();
   int page = 1;
   
+  Future<void> detailMovie({ required int id }) async {
+    final movies = state;
+    final movieWhere = movies!.where((e) => e.id == id).first;
+    final index = movies.indexOf(movieWhere);
+    await movieDataSource.detailMovie(
+      id: id,
+      success: (response) {
+        movies[index] = response;
+        state = [...movies];
+      } 
+    );
+  }
+
   Future<void> nowPlaying({
     void Function(MovieDbResponse response)? success,
   }) async {

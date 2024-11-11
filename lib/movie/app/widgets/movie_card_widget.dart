@@ -27,7 +27,7 @@ class MovieCardWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        ref.read(movieSelectedProvider.notifier).state = movie;
+        ref.read(movieIdProvider.notifier).state = movie.id;
         context.push(Routes.detailMovie);
       },
       child: Container(

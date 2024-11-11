@@ -30,6 +30,8 @@ class Movie {
   final int voteCount;
   final double popularity;
   bool isLiked;
+  final String tagLine;
+  final List<Genres> genres;
 
   Movie({
     required this.id,
@@ -42,6 +44,8 @@ class Movie {
     required this.voteCount,
     required this.popularity,
     required this.isLiked,
+    required this.tagLine,
+    required this.genres,
   }) : 
       _posterPath = posterPath, 
       _backdropPath = backdropPath;
@@ -57,48 +61,12 @@ class Movie {
     voteCount: json["vote_count"],
     popularity: json["popularity"]?.toDouble(),
     isLiked: true,
+    tagLine: json["tagline"] ?? '',
+    genres: json["genres"] != null ? List<Map<String, dynamic>>.from(json['genres']).map((e) => Genres.fromJson(e)).toList() : List.empty(),
   );
 
   String get posterImage => 'https://image.tmdb.org/t/p/w780$_posterPath';
   String get backdropImage => 'https://image.tmdb.org/t/p/w780$_backdropPath';
-}
-
-class MovieDetail extends Movie {
-  final String tagLine;
-  final List<Genres> genres;
-
-  MovieDetail({
-    required super.id,
-    required super.title,
-    required super.overview,
-    required super.backdropPath,
-    required super.posterPath,
-    required super.voteAverage,
-    required super.releaseDate,
-    required super.voteCount,
-    required super.popularity,
-    required super.isLiked,
-    required this.tagLine,
-    required this.genres,
-  });
-
-  factory MovieDetail.fromJson(Map<String, dynamic> json) {
-    final movie = Movie.fromJson(json);
-    return MovieDetail(
-      id: movie.id, 
-      title: movie.title, 
-      overview: movie.overview, 
-      backdropPath: movie._posterPath, 
-      posterPath: movie._posterPath, 
-      voteAverage: movie.voteAverage, 
-      releaseDate: movie.releaseDate,
-      voteCount: movie.voteCount,
-      popularity: movie.popularity,
-      isLiked: movie.isLiked,
-      tagLine: json["tagline"] ?? '',
-      genres: List<Map<String, dynamic>>.from(json['genres']).map((e) => Genres.fromJson(e)).toList(),
-    );
-  }
 }
 
 class Genres {

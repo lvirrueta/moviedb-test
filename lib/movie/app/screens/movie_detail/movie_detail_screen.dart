@@ -15,30 +15,30 @@ class MovieDetailScreen extends ConsumerStatefulWidget {
 }
 
 class MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
+  int ? movieIdSelected; 
   @override
   void initState() {
     super.initState();
-    final movieSelected = ref.read( movieSelectedProvider )!;
-    ref.read(movieDetailProvider.notifier).detail(id: movieSelected.id);
+    movieIdSelected = ref.read( movieIdProvider );
+    ref.read(moviesProvider.notifier).detailMovie(id: movieIdSelected!);
   }
 
   @override
   void deactivate() {
-    ref.invalidate(movieSelectedProvider);
-    ref.invalidate(movieDetailProvider);
+    ref.invalidate(movieIdProvider);
     super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
-    final movie = ref.watch( movieDetailProvider );
-    final movieSelected = ref.read( movieSelectedProvider )!;
+    final movies = ref.watch(moviesProvider);
+    final movie = movies?.firstWhere((e) => e.id == movieIdSelected);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(movieSelected.title),
+        title: Text(movie!.title),
       ),
-      body: (movie == null) ? const SizedBox() : ListView( 
+      body: ListView( 
         children: [
           Stack(
             children: [

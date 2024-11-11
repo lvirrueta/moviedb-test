@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedb/movie/domain/model/movie.dart';
-import 'package:moviedb/shared/services/preferences-service/shared_preferences_service.dart';
+import 'package:moviedb/movie/domain/provider/movie_provider.dart';
 
-class LikeButtonMovieDetail extends StatefulWidget {
+class LikeButtonMovieDetail extends ConsumerStatefulWidget {
   final Movie movie;
 
   const LikeButtonMovieDetail({
@@ -11,26 +12,17 @@ class LikeButtonMovieDetail extends StatefulWidget {
   });
 
   @override
-  State<LikeButtonMovieDetail> createState() => _LikeButtonMovieDetailState();
+  LikedButtonMovieState createState() => LikedButtonMovieState();
 }
 
-class _LikeButtonMovieDetailState extends State<LikeButtonMovieDetail> {
+class LikedButtonMovieState extends ConsumerState<LikeButtonMovieDetail> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
       bottom: 20,
       right: 0,
       child: IconButton(
-        onPressed: () {
-          SharedPreferencesService().toggleMoviesLiked(
-            movie: MovieSharedPreference(
-              id: widget.movie.id, 
-              name: widget.movie.title,
-            ),
-          );
-          widget.movie.isLiked = !widget.movie.isLiked;
-          setState(() {});
-        },
+        onPressed: () => ref.read(moviesProvider.notifier).toggleFavoriteMovie(id: widget.movie.id),
         icon: Icon(
           Icons.favorite,
           color: widget.movie.isLiked ? Colors.red : Colors.white,

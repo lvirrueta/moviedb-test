@@ -8,6 +8,9 @@ import 'package:moviedb/movie/domain/model/movie_response.dart';
 // DataSource
 import 'package:moviedb/movie/infrastructure/movie_datasource.dart';
 
+// Services
+import 'package:moviedb/shared/services/preferences-service/shared_preferences_service.dart';
+
 
 final moviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>?>((ref) => MoviesNotifier());
 
@@ -21,6 +24,21 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
   final movieDataSource = MovieDataSource();
   int page = 1;
   
+  void toggleFavoriteMovie({ required id }) {
+    final movies = state;
+    final movieWhere = movies!.where((e) => e.id == id).first;
+    final index = movies.indexOf(movieWhere);
+    movies[index].isLiked = !movies[index].isLiked;
+    state = [...movies];
+
+    SharedPreferencesService().toggleMoviesLiked(
+      movie: MovieSharedPreference(
+        id: movies[index].id, 
+        name: movies[index].title,
+      ),
+    );
+  }
+
   Future<void> detailMovie({ required int id }) async {
     final movies = state;
     final movieWhere = movies!.where((e) => e.id == id).first;

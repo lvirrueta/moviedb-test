@@ -1,4 +1,5 @@
 // Dependencies
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Model
@@ -9,6 +10,7 @@ import 'package:moviedb/movie/domain/model/movie_response.dart';
 import 'package:moviedb/movie/infrastructure/movie_datasource.dart';
 
 // Services
+import 'package:moviedb/shared/services/loading-service/loading_service.dart';
 import 'package:moviedb/shared/services/preferences-service/shared_preferences_service.dart';
 
 
@@ -72,15 +74,20 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
   }
 
   Future<void> nowPlaying({
-    void Function(MovieDbResponse response)? success,
+    void Function(MovieDbResponse response)? success,    
+    required BuildContext context,
   }) async {
+    final loadingService = LoadingService();
+
     await movieDataSource.nowPlaying(
       page: page,
+      finishLoading: () => loadingService.finishLoading(context),
+      loading: () => loadingService.showLoading(context),
       success: (response) {
         page++;
         final movies = response.results;
         state = [...?state, ...movies];
-        if (state!.length < 50) nowPlaying();
+        if (state!.length < 50) nowPlaying(context: context);
       },
     );
   }

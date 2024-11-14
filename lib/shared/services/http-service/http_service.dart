@@ -24,6 +24,7 @@ class HttpService implements IHttpService {
     void Function(Response<dynamic> response) ? success,
     void Function(ErrorHttp error) ? failure,
   }) async {
+    loading?.call();
     final resp = await dio.request(
       url,
       queryParameters: queryParameters,
@@ -32,6 +33,7 @@ class HttpService implements IHttpService {
       ),
     );
     success?.call(resp);
+    finishLoading?.call();
   }
 
 }

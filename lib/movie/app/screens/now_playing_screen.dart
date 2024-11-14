@@ -20,7 +20,9 @@ class MovieScreenState extends ConsumerState<NowPlayingMoviesScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(moviesProvider.notifier).nowPlaying();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(moviesProvider.notifier).nowPlaying(context: context);
+    });
   }
 
   @override
@@ -32,7 +34,7 @@ class MovieScreenState extends ConsumerState<NowPlayingMoviesScreen> {
         title: const Text('Cartelera'),
       ),
       body: (movies == null) 
-        ? const Center(child: Text('Cargando')) 
+        ? const SizedBox()
         : ListView(
           children: [
             ...movies.map((movie) => MovieCardWidget(movie: movie)),
@@ -41,7 +43,7 @@ class MovieScreenState extends ConsumerState<NowPlayingMoviesScreen> {
               title: const Text('Más películas...'),
               leading: const Icon(Icons.movie),
               trailing: const Icon(Icons.keyboard_double_arrow_down),
-              onTap: () => ref.read(moviesProvider.notifier).nowPlaying(),
+              onTap: () => ref.read(moviesProvider.notifier).nowPlaying(context: context),
             )
           ],
         )

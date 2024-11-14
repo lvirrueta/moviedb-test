@@ -7,6 +7,8 @@ abstract class IMovieDataSource {
   Future<void> nowPlaying({
     required int page,
     void Function(MovieDbResponse response) ? success,
+    void Function() ? loading,
+    void Function() ? finishLoading,
   });
 
   Future<void> detailMovie({

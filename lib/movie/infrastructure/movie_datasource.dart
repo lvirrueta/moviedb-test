@@ -21,6 +21,8 @@ class MovieDataSource implements IMovieDataSource {
   @override
   Future<void> nowPlaying({
     required int page,
+    void Function() ? loading,
+    void Function() ? finishLoading,
     void Function(MovieDbResponse response)? success
   }) async {
     await httpService.http(
@@ -30,6 +32,8 @@ class MovieDataSource implements IMovieDataSource {
         'page': page,
         'language': language,
       },
+      loading: loading,
+      finishLoading: finishLoading,
       success: (r) async {
         final MovieDbResponse moviesApi = MovieDbResponse.fromJson(r.data);
         final moviesLiked = await SharedPreferencesService().getMoviesLiked();

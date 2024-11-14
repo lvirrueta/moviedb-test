@@ -11,13 +11,11 @@ class SnackbarService {
   final String textContent;
 
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar() {
-    final colors = Theme.of(context).colorScheme;
     ScaffoldMessenger.of(context).clearSnackBars();
 
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(textContent, style: TextStyle(color: colors.onPrimary) ),
-        backgroundColor: colors.primaryFixed,
+        content: Text(textContent),
         duration: Duration(seconds: duration),
       )
     );

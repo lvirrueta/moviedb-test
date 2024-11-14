@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedb/movie/domain/model/movie.dart';
 import 'package:moviedb/movie/domain/provider/movie_provider.dart';
+import 'package:moviedb/shared/services/snackbar-service/snackbar_service.dart';
 
 class LikeButtonMovieDetail extends ConsumerWidget {
   final Movie movie;
@@ -36,7 +37,10 @@ class SharedButtonMovieDetail extends StatelessWidget {
       bottom: 80,
       right: 0,
       child: IconButton(
-        onPressed: () {}, 
+        onPressed: () => SnackbarService(
+          context: context,
+          textContent: 'Pelicula compartida'
+        ).showSnackBar(), 
         icon: const Icon(
           Icons.share,
           color: Colors.white,

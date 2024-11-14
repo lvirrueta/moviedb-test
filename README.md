@@ -40,10 +40,11 @@ Un StatelessWidget es inmutable y su contenido no cambia después de ser creado.
 4. `Explique el ciclo de vida de un StatefulWidget. ¿Cómo se pueden 
 utilizar métodos como initState, didChangeDependencies y dispose?`
 
-El ciclo de vida de un StatefulWidget incluye la creación, actualización y destrucción del widget. initState se llama una vez al inicio para realizar la configuración inicial. dispose se llama al destruir el widget, permitiendo liberar recursos o cancelar subscripciones. 
+El ciclo de vida de un StatefulWidget incluye la creación, actualización y destrucción del widget.
+
 - **initstate**: se llama al inicio de la aplicacion, justo antes de renderizar el widget
 - **didChange**: se invoca cuando cambian las depedencias del widget
-- **dispose**: se ejecuta antes de la destruccion del widget
+- **dispose**: se ejecuta antes de la destruccion del widget, permitiendo liberar recursos
 
 5. `¿Qué son los Future y Stream en Dart, y cómo se utilizan en Flutter?`
 

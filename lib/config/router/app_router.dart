@@ -6,7 +6,7 @@ import 'package:moviedb/landing/application/landing_screen.dart';
 import 'package:moviedb/movie/app/screens/now_playing_screen.dart';
 import 'package:moviedb/movie/app/screens/search_movie_screen.dart';
 import 'package:moviedb/movie/app/screens/favorite_movie_screen.dart';
-import 'package:moviedb/movie/app/screens/movie_detail/movie_detail_screen.dart';
+import 'package:moviedb/movie/app/screens/movie_detail_screen.dart';
 
 // Constants
 import 'package:moviedb/config/router/routes.dart';

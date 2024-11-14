@@ -2,10 +2,13 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moviedb/movie/app/screens/movie_detail/movie_detail_buttons.dart';
 
 // Provider
 import 'package:moviedb/movie/domain/provider/movie_provider.dart';
+
+// Widgets
+import 'package:moviedb/movie/app/widgets/movie_detail_buttons.dart';
+
 
 class MovieDetailScreen extends ConsumerStatefulWidget {
   const MovieDetailScreen({super.key});
@@ -20,7 +23,9 @@ class MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
   void initState() {
     super.initState();
     movieIdSelected = ref.read( movieIdProvider );
-    ref.read(moviesProvider.notifier).detailMovie(id: movieIdSelected!);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(moviesProvider.notifier).detailMovie(id: movieIdSelected!, context: context);
+    });
   }
 
   @override

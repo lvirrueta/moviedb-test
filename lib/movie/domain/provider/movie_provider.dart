@@ -60,12 +60,21 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
     );
   }
 
-  Future<void> detailMovie({ required int id }) async {
+  Future<void> detailMovie({ 
+    required int id,
+    required BuildContext context,
+    void Function() ? loading,
+    void Function() ? finishLoading,
+  }) async {
     final movies = state;
     final movieWhere = movies!.where((e) => e.id == id).first;
     final index = movies.indexOf(movieWhere);
+
+    final loadingService = LoadingService();
     await movieDataSource.detailMovie(
       id: id,
+      finishLoading: () => loadingService.finishLoading(context),
+      loading: () => loadingService.showLoading(context),
       success: (response) {
         movies[index] = response;
         state = [...movies];

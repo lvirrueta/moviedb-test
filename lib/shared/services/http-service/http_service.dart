@@ -25,6 +25,7 @@ class HttpService implements IHttpService {
     void Function(ErrorHttp error) ? failure,
   }) async {
     loading?.call();
+    await Future.delayed(const Duration(seconds: 3));
     final resp = await dio.request(
       url,
       queryParameters: queryParameters,

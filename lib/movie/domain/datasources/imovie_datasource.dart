@@ -13,6 +13,8 @@ abstract class IMovieDataSource {
 
   Future<void> detailMovie({
     required int id,
+    void Function() ? loading,
+    void Function() ? finishLoading,
     void Function(Movie response) ? success,
   });
 

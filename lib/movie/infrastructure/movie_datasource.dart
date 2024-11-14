@@ -54,11 +54,15 @@ class MovieDataSource implements IMovieDataSource {
   @override
   Future<void> detailMovie({
     required int id,
+    void Function() ? loading,
+    void Function() ? finishLoading,
     void Function(Movie response)? success
   }) async {
     await httpService.http(
       url: '${ApiRoutes.detail}$id', 
       method: HttpMethodEnum.get,
+      loading: loading,
+      finishLoading: finishLoading,
       queryParameters: { 
         'language': language,
       },

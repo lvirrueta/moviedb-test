@@ -66,4 +66,36 @@ class MovieDataSource implements IMovieDataSource {
       } 
     );
   }
+  
+  @override
+  Future<void> searchMovie({
+    required String movieQuery,
+    required int page,
+    void Function(MovieDbResponse response)? success
+  }) async {
+    if (movieQuery.length <= 3) return;
+    await httpService.http(
+      url: ApiRoutes.search, 
+      method: HttpMethodEnum.get,
+      queryParameters: { 
+        'page': page,
+        'language': language,
+        'query': movieQuery,
+      },
+      success: (r) async {
+        final MovieDbResponse moviesApi = MovieDbResponse.fromJson(r.data);
+        final moviesLiked = await SharedPreferencesService().getMoviesLiked();
+        final movies = MovieDbResponse(
+          page: moviesApi.page,
+          totalPages: moviesApi.totalPages,
+          totalResults: moviesApi.totalResults,
+          results: moviesApi.results.map((e) {
+            e.isLiked = (moviesLiked.where((m) => m.id == e.id).isNotEmpty);
+            return e;
+          }).toList(),
+        );
+        success?.call(movies);
+      },
+    );
+  }
 }

@@ -4,5 +4,5 @@ class ApiRoutes {
   static String topRated = 'movie/top_rated';
   static String upcoming = 'movie/upcoming';
   static String detail = 'movie/';
-  static String search = 'search';
+  static String search = 'search/movie';
 }

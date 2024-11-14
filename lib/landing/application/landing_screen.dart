@@ -15,11 +15,19 @@ class LandingScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ListTile(
+            title: const Text('Busca'),
+            leading: const Icon(Icons.search),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () => context.push(Routes.search),
+          ),
+
+          ListTile(
             title: const Text('Cartelera'),
             leading: const Icon(Icons.movie),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () => context.push(Routes.nowPlaying),
           ),
+
           ListTile(
             title: const Text('Favoritos'),
             leading: const Icon(Icons.favorite),

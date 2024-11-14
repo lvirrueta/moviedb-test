@@ -3,4 +3,5 @@ abstract class Routes {
   static String nowPlaying = '/nowPlaying';
   static String detailMovie = '/detailMovie';
   static String favorites = '/favorites';
+  static String search = '/search';
 }

@@ -23,7 +23,24 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
 
   final movieDataSource = MovieDataSource();
   int page = 1;
+  int pageSearch = 1;
   
+  Future<void> search({ String ? movieQuery }) async {
+    if (movieQuery == null) {
+      state?.clear();
+      return;
+    }
+
+    await movieDataSource.searchMovie(
+      movieQuery: movieQuery, 
+      page: pageSearch,
+      success: (response) {
+        final movies = response.results;
+        state = movies;
+      },
+    );
+  }
+
   Future<void> getFavorites() async {
     final movies = await SharedPreferencesService().getMoviesLiked();
     state = movies;

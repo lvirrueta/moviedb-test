@@ -40,11 +40,18 @@ class SearchMovieScreenState extends ConsumerState<SearchMovieScreen> {
       ),
       body: Column(
         children: [
-          TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Enter your email',
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: 'Busca Película',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide()
+                )
+              ),
+              onChanged: (value) =>  ref.read(moviesProvider.notifier).search(movieQuery: value),
             ),
-            onChanged: (value) =>  ref.read(moviesProvider.notifier).search(movieQuery: value),
           ),
           Flexible(
             child: ListView(

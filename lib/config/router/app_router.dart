@@ -1,6 +1,7 @@
 // Dependencies
 import 'package:go_router/go_router.dart';
 import 'package:moviedb/landing/application/landing_screen.dart';
+import 'package:moviedb/movie/app/screens/favorite_movie_screen.dart';
 import 'package:moviedb/movie/app/screens/movie_detail/movie_detail_screen.dart';
 
 // Screens
@@ -16,5 +17,6 @@ final appRouter = GoRouter(
     GoRoute(path: Routes.root, builder: (context, state) => const LandingScreen() ),
     GoRoute(path: Routes.nowPlaying, builder: (context, state) => const NowPlayingMoviesScreen() ),
     GoRoute(path: Routes.detailMovie, builder: (context, state) => const MovieDetailScreen() ),
+    GoRoute(path: Routes.favorites, builder: (context, state) => const FavoriteMovieScreen() ),
   ]
 );

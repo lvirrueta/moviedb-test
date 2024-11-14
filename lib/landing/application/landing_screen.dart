@@ -11,12 +11,22 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: TextButton.icon (
-          onPressed: () => context.push(Routes.nowPlaying), 
-          icon: const Icon(Icons.movie),
-          label: const Text('MovieDB'),
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ListTile(
+            title: const Text('Cartelera'),
+            leading: const Icon(Icons.movie),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () => context.push(Routes.nowPlaying),
+          ),
+          ListTile(
+            title: const Text('Favoritos'),
+            leading: const Icon(Icons.favorite),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () => context.push(Routes.favorites),
+          )
+        ],
       ),
     );
   }

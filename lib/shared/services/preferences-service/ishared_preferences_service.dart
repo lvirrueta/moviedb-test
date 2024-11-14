@@ -1,6 +1,6 @@
 import 'package:moviedb/movie/domain/model/movie.dart';
 
 abstract class ISharedPreferencesService {
-  Future<List<MovieSharedPreference>> getMoviesLiked ();
-  Future<void> toggleMoviesLiked ({ required MovieSharedPreference movie });
+  Future<List<Movie>> getMoviesLiked ();
+  Future<void> toggleMoviesLiked ({ required Movie movie });
 }

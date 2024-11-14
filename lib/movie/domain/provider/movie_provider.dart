@@ -24,6 +24,11 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
   final movieDataSource = MovieDataSource();
   int page = 1;
   
+  Future<void> getFavorites() async {
+    final movies = await SharedPreferencesService().getMoviesLiked();
+    state = movies;
+  }
+
   void toggleFavoriteMovie({ required id }) {
     final movies = state;
     final movieWhere = movies!.where((e) => e.id == id).first;
@@ -32,10 +37,7 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
     state = [...movies];
 
     SharedPreferencesService().toggleMoviesLiked(
-      movie: MovieSharedPreference(
-        id: movies[index].id, 
-        name: movies[index].title,
-      ),
+      movie: movies[index],
     );
   }
 

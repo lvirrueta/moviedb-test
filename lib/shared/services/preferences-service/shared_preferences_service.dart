@@ -7,20 +7,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService implements ISharedPreferencesService {
   @override
-  Future<List<MovieSharedPreference>> getMoviesLiked() async {
+  Future<List<Movie>> getMoviesLiked() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> ? moviesString = prefs.getStringList('moviesFavorites');
-    final List<MovieSharedPreference> movies = List.empty(growable: true);
+    final List<Movie> movies = List.empty(growable: true);
 
     moviesString?.forEach((e) {
-      final movieLiked = MovieSharedPreference.fromJson(jsonDecode(e));
+      final movieLiked = Movie.fromJson(jsonDecode(e));
       movies.add(movieLiked);
     });
     return movies;
   }
   
   @override
-  Future<void> toggleMoviesLiked({required MovieSharedPreference movie}) async {
+  Future<void> toggleMoviesLiked({required Movie movie}) async {
     final moviesLiked = await getMoviesLiked();
 
     if (moviesLiked.where((m) => m.id == movie.id).isNotEmpty) {

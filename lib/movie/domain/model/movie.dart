@@ -1,23 +1,3 @@
-class MovieSharedPreference {
-  final int id;
-  final String name; 
-
-  MovieSharedPreference({
-    required this.id,
-    required this.name,
-  });
-
-  Map toJson() => {
-    'id': id,
-    'name': name,
-  };
-
-  factory MovieSharedPreference.fromJson(Map<String, dynamic> json) => MovieSharedPreference(
-    id: json["id"],
-    name: json["name"],
-  );
-
-}
 
 class Movie {
   final int id;
@@ -67,6 +47,20 @@ class Movie {
 
   String get posterImage => 'https://image.tmdb.org/t/p/w780$_posterPath';
   String get backdropImage => 'https://image.tmdb.org/t/p/w780$_backdropPath';
+
+  Map toJson() => {
+    'backdrop_path': _backdropPath,
+    'id': id,
+    'overview': overview,
+    'poster_path': _posterPath,
+    'release_date': releaseDate.toIso8601String(),
+    'title': title,
+    'vote_average': voteAverage,
+    'vote_count': voteCount,
+    'popularity': popularity,
+    'isLiked': isLiked,
+    'tagline': tagLine,
+  };
 }
 
 class Genres {

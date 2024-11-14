@@ -86,6 +86,8 @@ class MovieDataSource implements IMovieDataSource {
     required int page,
     void Function(MovieDbResponse response)? success,
     void Function(ErrorHttp error) ? failure,
+    void Function() ? loading,
+    void Function() ? finishLoading,
   }) async {
     if (movieQuery.length <= 3) return;
     await httpService.http(
@@ -96,6 +98,8 @@ class MovieDataSource implements IMovieDataSource {
         'language': language,
         'query': movieQuery,
       },
+      loading: loading,
+      finishLoading: finishLoading,
       failure: failure,
       success: (r) async {
         final MovieDbResponse moviesApi = MovieDbResponse.fromJson(r.data);

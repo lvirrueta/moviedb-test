@@ -34,6 +34,8 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
       return;
     }
 
+    final loadingService = LoadingService();
+
     await movieDataSource.searchMovie(
       movieQuery: movieQuery, 
       page: pageSearch,
@@ -41,6 +43,8 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
         final movies = response.results;
         state = movies;
       },
+      finishLoading: () => loadingService.finishLoading(context),
+      loading: () => loadingService.showLoading(context),
       failure: (error) => SnackbarService(
         context: context,
         textContent: error.message

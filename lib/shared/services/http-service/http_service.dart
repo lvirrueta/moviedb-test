@@ -24,17 +24,32 @@ class HttpService implements IHttpService {
     void Function(Response<dynamic> response) ? success,
     void Function(ErrorHttp error) ? failure,
   }) async {
+
     loading?.call();
-    await Future.delayed(const Duration(seconds: 3));
-    final resp = await dio.request(
-      url,
-      queryParameters: queryParameters,
-      options: Options(
-        method: method.name,
-      ),
-    );
-    success?.call(resp);
-    finishLoading?.call();
+    // await Future.delayed(const Duration(seconds: 3));
+    try {  
+      final resp = await dio.request(
+        url,
+        queryParameters: queryParameters,
+        options: Options(
+          method: method.name,
+        ),
+      );
+      success?.call(resp);
+    } on DioException catch (e) {
+      _catchErrors(errorException: e, failure: failure);
+    } finally {
+      finishLoading?.call();
+    }
+  }
+
+  void _catchErrors({
+    required DioException errorException,
+    void Function(ErrorHttp errorHttp) ? failure,
+  }) {
+    final dynamic data = errorException.response?.data;
+    final error = ErrorHttp.fromJson(data);
+    return failure?.call(error);
   }
 
 }

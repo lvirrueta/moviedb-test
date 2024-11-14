@@ -1,11 +1,14 @@
 class ErrorHttp {
   ErrorHttp({
-    required this.status,
     required this.message,
     required this.code,
   });
 
-  final int status;
   final String message;
-  final String code;
+  final String code; 
+
+  factory ErrorHttp.fromJson(Map<String, dynamic> json) => ErrorHttp(
+    code: json["status_code"]?.toString() ?? '',
+    message: json["status_message"] ?? '',
+  );
 }

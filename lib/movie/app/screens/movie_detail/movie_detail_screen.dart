@@ -95,7 +95,9 @@ class MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                       ),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(DateFormat.yMMMMEEEEd('es_MX').format(movie.releaseDate)),
+                        child: (movie.releaseDate != null)
+                          ? Text(DateFormat.yMMMMEEEEd('es_MX').format(movie.releaseDate!))
+                          : const Text(''),
                       ),
                       movie.overview.isEmpty ? const SizedBox() : const Align(
                         alignment: Alignment.centerLeft,

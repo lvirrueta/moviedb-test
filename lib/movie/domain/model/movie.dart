@@ -6,7 +6,7 @@ class Movie {
   final String _backdropPath;
   final String _posterPath;
   final double voteAverage;
-  final DateTime releaseDate;
+  final DateTime ? releaseDate;
   final int voteCount;
   final double popularity;
   bool isLiked;
@@ -35,7 +35,7 @@ class Movie {
     id: json["id"],
     overview: json["overview"] ?? '',
     posterPath: json["poster_path"] ?? '',
-    releaseDate: DateTime.parse(json["release_date"]),
+    releaseDate: json["release_date"].toString().isNotEmpty ? DateTime.parse(json["release_date"]) : null,
     title: json["title"],
     voteAverage: json["vote_average"]?.toDouble(),
     voteCount: json["vote_count"],
@@ -53,7 +53,7 @@ class Movie {
     'id': id,
     'overview': overview,
     'poster_path': _posterPath,
-    'release_date': releaseDate.toIso8601String(),
+    'release_date': releaseDate?.toIso8601String(),
     'title': title,
     'vote_average': voteAverage,
     'vote_count': voteCount,

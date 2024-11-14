@@ -62,7 +62,7 @@ class MovieCardWidget extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.all(15),
                         child: Text(
-                          DateFormat('dd MMM yyyy').format(movie.releaseDate),
+                          movie.releaseDate != null ? DateFormat('dd MMM yyyy').format(movie.releaseDate!) : '',
                           style: const TextStyle(
                             color: Colors.white,
                           ),

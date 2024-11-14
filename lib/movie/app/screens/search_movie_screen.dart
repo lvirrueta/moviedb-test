@@ -21,7 +21,9 @@ class SearchMovieScreenState extends ConsumerState<SearchMovieScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(moviesProvider.notifier).search();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(moviesProvider.notifier).search(context: context);
+    });
   }
   
   @override
@@ -50,7 +52,7 @@ class SearchMovieScreenState extends ConsumerState<SearchMovieScreen> {
                   borderSide: const BorderSide()
                 )
               ),
-              onChanged: (value) =>  ref.read(moviesProvider.notifier).search(movieQuery: value),
+              onChanged: (value) =>  ref.read(moviesProvider.notifier).search(movieQuery: value, context: context),
             ),
           ),
           Flexible(

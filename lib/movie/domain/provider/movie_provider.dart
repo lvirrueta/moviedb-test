@@ -12,6 +12,7 @@ import 'package:moviedb/movie/infrastructure/movie_datasource.dart';
 // Services
 import 'package:moviedb/shared/services/loading-service/loading_service.dart';
 import 'package:moviedb/shared/services/preferences-service/shared_preferences_service.dart';
+import 'package:moviedb/shared/services/snackbar-service/snackbar_service.dart';
 
 
 final moviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>?>((ref) => MoviesNotifier());
@@ -27,7 +28,7 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
   int page = 1;
   int pageSearch = 1;
   
-  Future<void> search({ String ? movieQuery }) async {
+  Future<void> search({ String ? movieQuery, required BuildContext context }) async {
     if (movieQuery == null) {
       state?.clear();
       return;
@@ -40,6 +41,10 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
         final movies = response.results;
         state = movies;
       },
+      failure: (error) => SnackbarService(
+        context: context,
+        textContent: error.message
+      ).showErrorSnackBar(error.code),
     );
   }
 
@@ -78,7 +83,11 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
       success: (response) {
         movies[index] = response;
         state = [...movies];
-      } 
+      },
+      failure: (error) => SnackbarService(
+        context: context,
+        textContent: error.message
+      ).showErrorSnackBar(error.code),
     );
   }
 
@@ -98,6 +107,10 @@ class MoviesNotifier extends StateNotifier<List<Movie>?> {
         state = [...?state, ...movies];
         if (state!.length < 50) nowPlaying(context: context);
       },
+      failure: (error) => SnackbarService(
+        context: context,
+        textContent: error.message
+      ).showErrorSnackBar(error.code),
     );
   }
 }

@@ -1,6 +1,7 @@
 // Models
 import 'package:moviedb/movie/domain/model/movie.dart';
 import 'package:moviedb/movie/domain/model/movie_response.dart';
+import 'package:moviedb/shared/services/http-service/error_http_model.dart';
 
 // Services
 import 'package:moviedb/shared/services/http-service/http_service.dart';
@@ -23,6 +24,7 @@ class MovieDataSource implements IMovieDataSource {
     required int page,
     void Function() ? loading,
     void Function() ? finishLoading,
+    void Function(ErrorHttp error) ? failure,
     void Function(MovieDbResponse response)? success
   }) async {
     await httpService.http(
@@ -47,7 +49,8 @@ class MovieDataSource implements IMovieDataSource {
           }).toList(),
         );
         success?.call(movies);
-      } 
+      },
+      failure: failure
     );
   }
   
@@ -56,13 +59,15 @@ class MovieDataSource implements IMovieDataSource {
     required int id,
     void Function() ? loading,
     void Function() ? finishLoading,
-    void Function(Movie response)? success
+    void Function(Movie response)? success,
+    void Function(ErrorHttp error) ? failure,
   }) async {
     await httpService.http(
       url: '${ApiRoutes.detail}$id', 
       method: HttpMethodEnum.get,
       loading: loading,
       finishLoading: finishLoading,
+      failure: failure,
       queryParameters: { 
         'language': language,
       },
@@ -79,7 +84,8 @@ class MovieDataSource implements IMovieDataSource {
   Future<void> searchMovie({
     required String movieQuery,
     required int page,
-    void Function(MovieDbResponse response)? success
+    void Function(MovieDbResponse response)? success,
+    void Function(ErrorHttp error) ? failure,
   }) async {
     if (movieQuery.length <= 3) return;
     await httpService.http(
@@ -90,6 +96,7 @@ class MovieDataSource implements IMovieDataSource {
         'language': language,
         'query': movieQuery,
       },
+      failure: failure,
       success: (r) async {
         final MovieDbResponse moviesApi = MovieDbResponse.fromJson(r.data);
         final moviesLiked = await SharedPreferencesService().getMoviesLiked();
